@@ -33,6 +33,7 @@ AI支持调用的百度千帆大模型平台提供的[ERNIE-Bot 4.0](https://clo
   - 前台模式
 
     docker-compose -f server.yml up -d mongo   # 先启动mongo服务
+
     docker-compose -f server.yml up game       # 前台模式启动game
     
   - 启动失败处理
