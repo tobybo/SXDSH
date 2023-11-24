@@ -8,6 +8,7 @@ AI支持调用的百度千帆大模型平台提供的[ERNIE-Bot 4.0](https://clo
 - 下载仓库
   - git clone https://github.com/tobybo/sxdsh.git sxdsh   
   - cd sxdsh
+  - git submodule update --init --recursive
 - 获取百度千帆 api 的 access_token，已经有 ak 的可以忽略这一步。也可以通过[其他方式](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Ilkkrb0i5)拿到 ak
   - python3 request_ak.py API_KEY API_SECRET_KEY
 - 配置 access_token
