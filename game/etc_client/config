@@ -1,6 +1,6 @@
 include "config_client.path"
 
-preload = "./game/myclient/preload.lua"	-- run preload.lua before every lua service run
+preload = "../game/myclient/preload.lua"	-- run preload.lua before every lua service run
 thread = 8
 logger = nil
 logpath = "."

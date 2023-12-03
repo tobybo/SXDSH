@@ -1,5 +1,5 @@
 
-package.path = "./game/myclient/?.lua;".."./game/myservice/?.lua;"..package.path
+package.path = "../game/myclient/?.lua;".."../game/myservice/?.lua;"..package.path
 
 require("table_ext")
 

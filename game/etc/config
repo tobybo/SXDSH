@@ -1,6 +1,7 @@
 include "config.path"
+include "access_token"
 
-preload = "./game/myservice/preload.lua"	-- run preload.lua before every lua service run
+preload = "../game/myservice/preload.lua"	-- run preload.lua before every lua service run
 thread = 8
 logger = nil
 logpath = "."

@@ -1,4 +1,4 @@
-package.path = "./game/myservice/?.lua;" .. package.path
+package.path = "../game/myservice/?.lua;" .. package.path
 
 local skynet = require "skynet"
 local socket = require "skynet.socket"
