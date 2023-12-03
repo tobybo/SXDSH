@@ -1,0 +1,16 @@
+include "config_client.path"
+
+preload = "./game/myclient/preload.lua"	-- run preload.lua before every lua service run
+thread = 8
+logger = nil
+logpath = "."
+harbor = 1
+address = "127.0.0.1:2528"
+master = "127.0.0.1:2015"
+start = "client"	-- main script
+bootstrap = "snlua bootstrap"	-- The service for bootstrap
+standalone = "0.0.0.0:2015"
+-- snax_interface_g = "snax_g"
+cpath = root.."cservice/?.so"
+-- daemon = "./skynet.pid"
+enablessl = true
