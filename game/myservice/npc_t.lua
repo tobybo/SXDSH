@@ -17,7 +17,6 @@ prepare = function(self, name, role)
     self.talk_msgs = {}
     self.host_api = "https://aip.baidubce.com"
     self.request_url = string.format("https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro?access_token=%s", skynet.getenv("access_token"))
---local request_url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=24.5d90755bf6b5101d0003dd25e0c6d560.2592000.1701854890.282335-42455845"
 end
 
 mount_ply = function(self, ply)
@@ -59,7 +58,7 @@ talk = function(self, clear, question, ...)
     -- end
     -- print("[body] =====>", status)
     local res = json.decode(body)
-    -- print(string.format("%s", stringify(res)))
+    print(string.format("%s", stringify(res)))
     -- print("test_image_recognition --------------------------")
     local result = res.result:gsub("%s",""):gsub("\n", " ")
     print(string.format("npc %s: %s", npc_name, result))
