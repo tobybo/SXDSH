@@ -183,7 +183,7 @@ state_machine = {
             self:calc_mine()
         end,
         on_running = function(self)
-            self.rpc:tips("采矿结束")
+            self:tips("采矿结束")
             self:set_state(PLY_STATE.NORMAL)
         end,
     },
