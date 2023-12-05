@@ -12,8 +12,6 @@ services:
         network_mode: "host"
         logging:
             driver: json-file
-        depends_on:
-            - "mongo"
         volumes:
             - ./:/proj
             - /etc/localtime:/etc/localtime
@@ -21,4 +19,6 @@ services:
         entrypoint: ./entrypoint.sh
         environment:
             - CONF_PATH=../game/etc_client/config
+            - SERVER_HOST=127.0.0.1
+            - SERVER_PORT=8888
 
