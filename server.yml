@@ -36,4 +36,5 @@ services:
         entrypoint: ./entrypoint.sh
         environment:
             - CONF_PATH=../game/etc/config
+            - SERVER_PORT=8888
 

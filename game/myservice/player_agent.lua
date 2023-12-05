@@ -102,7 +102,7 @@ end
 skynet.start(function()
     dbL = mongo.client(
 		{
-			host = "10.23.0.40", port = 27017,
+			host = "127.0.0.1", port = 27017,
 			authdb = "admin",
 		}
 	)["sxdsh"]
