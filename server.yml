@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+    mongo:
+        container_name: mongo
+        image: www.tobybo.life:5000/mongo:latest
+        labels:
+            project: SXDSH
+        restart: "no"
+        stdin_open: 'true'
+        tty: 'true'
+        network_mode: "host"
+        logging:
+            driver: json-file
+        volumes:
+            - ./dbdata/mongo:/data/db
+            - /etc/localtime:/etc/localtime
+
+    game:
+        container_name: game
+        image: www.tobybo.life:5000/centos:latest
+        labels:
+            project: SXDSH
+        restart: 'no'
+        stdin_open: 'true'
+        tty: 'true'
+        network_mode: "host"
+        logging:
+            driver: json-file
+        depends_on:
+            - "mongo"
+        volumes:
+            - ./:/proj
+            - /etc/localtime:/etc/localtime
+        working_dir: /proj/skynet
+        entrypoint: ./entrypoint.sh
+        environment:
+            - CONF_PATH=../game/etc/config
+
