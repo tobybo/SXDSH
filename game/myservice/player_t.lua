@@ -40,7 +40,6 @@ ctor = function(self, fd, db, send, dog)
     --self:register_cmds()
     self:register_npcs()
     self:set_state(PLY_STATE.NORMAL)
-    self:del_task()
 end
 
 get_name = function(self)
