@@ -64,7 +64,9 @@ AI支持调用的百度千帆大模型平台提供的[ERNIE-Bot 4.0](https://clo
 为了尽量不影响到 skynet 本身，业务脚本都单独放在 game 目录下开发。skynet 目前只额外增加了一个 lua-cjson 的第三方库支持，启用了 lts 库支持，用于发起https请求和处理百度api返回的http消息。
 ![image](https://github.com/tobybo/sxdsh/assets/28852169/e7423ae1-7f4a-4f4f-9b74-c7cdb4a382ab)
 
+## B 站视频讲解
 
+[多人修仙小游戏: 散修的生活 卷一 灵风城（服务端开发向）](https://www.bilibili.com/video/BV1wv411F7hA/?share_source=copy_web&vd_source=47f011734f1f5eab6b1bc1385874b974)
 
 ## 世界观简介
 ![世界设定](https://github.com/tobybo/sxdsh/assets/28852169/90ace002-6149-4a15-83be-2d4a7db4a0ca)
