@@ -51,7 +51,7 @@ talk = function(self, clear, question, ...)
     local tm_start = skynet.time()
     local status, body = httpc.post(self.host_api, self.request_url, form, respheader)
     local tm_end = skynet.time()
-    printf("npc_name: %s, tm_cost: ", npc_name, tm_end - tm_start)
+    printf("npc_name: %s, tm_cost: %s", npc_name, tm_end - tm_start)
     -- print("[header] =====>")
     -- for k,v in pairs(respheader) do
     --     print(k,v)

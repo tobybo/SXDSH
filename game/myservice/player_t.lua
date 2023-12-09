@@ -40,6 +40,7 @@ ctor = function(self, fd, db, send, dog)
     --self:register_cmds()
     self:register_npcs()
     self:set_state(PLY_STATE.NORMAL)
+    self:del_task()
 end
 
 get_name = function(self)
@@ -140,6 +141,10 @@ end
 
 save = function(self, chgs)
     self.db.player:update({_id = self.name}, {["$set"] = chgs}, true, false)
+end
+
+drop = function(self, chgs)
+    self.db.player:update({_id = self.name}, {["$unset"] = chgs}, true, false)
 end
 
 get_save_info = function(self)
@@ -418,6 +423,11 @@ add_task = function(self, task_need)
     self:action(tips, "恭喜你获得了突破线索：收集%s", task_need)
 end
 
+del_task = function(self)
+    self.task_need = nil
+    self:drop({task_need = 1})
+end
+
 need_break = function(self)
     if self.lv >= #resmng.prop_level then
         return false
@@ -429,6 +439,7 @@ end
 
 upgrade_lv = function(self)
     self.lv = self.lv + 1
+    self:save({lv = self.lv})
     self:tips("恭喜你晋级到%s", self:get_lv_name())
 end
 

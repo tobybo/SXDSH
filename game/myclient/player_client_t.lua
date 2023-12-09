@@ -70,7 +70,7 @@ cmds = {
     end,
     a = function(self)
         self.npc = "a"
-        self.rpc:talk({npc_name = "a", clear = 1, question = string.format("我是修士%s，你能给我提供帮助吗", self.name)})
+        self.rpc:talk({npc_name = "a", clear = 1, question = string.format("我是修士%s", self.name)})
     end,
     b = function(self)
         self.npc = "b"
