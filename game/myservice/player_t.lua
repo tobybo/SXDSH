@@ -100,6 +100,8 @@ on_login = function(self, fd, db, send, dog)
     self:set_state(PLY_STATE.NORMAL)
     self.tm_login = get_time()
     self.tm_exp = self.tm_login
+    self.tm_book = 0
+    self.book = ""
     printf("散修[%s]登录成功", self.name)
 end
 
@@ -299,6 +301,7 @@ register_npcs = function(self)
         c = npc_tiewan_t.create(),
         d = npc_mingwu_t.create(),
         m = npc_mine_t.create(),
+        guess = npc_guess_t.create(),
     }
     for name, npc in pairs(self.npcs) do
         npc:mount_ply(self)

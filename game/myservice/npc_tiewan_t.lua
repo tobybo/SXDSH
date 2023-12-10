@@ -14,7 +14,7 @@ on_talk = function(self, msg)
     if ply:has_card() then
         return
     end
-    if msg:find("我愿意给你发放") then
+    if msg:find("我愿意") then
         ply:add_card()
     end
 end

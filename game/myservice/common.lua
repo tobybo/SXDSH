@@ -139,7 +139,11 @@ function module_class(mod, base)
                 end
                 obj._proxy[k] = v
                 if mod._table_name and not obj._init then
-                    obj.db[mod._table_name]:update({_id = obj._id}, {["$set"] = {[k] = v}}, true, false)
+                    if v ~= nil then
+                        obj.db[mod._table_name]:update({_id = obj._id}, {["$set"] = {[k] = v}}, true, false)
+                    else
+                        obj.db[mod._table_name]:update({_id = obj._id}, {["$unset"] = {[k] = 1}}, true, false)
+                    end
                 end
             elseif mod._property[k] ~= nil then
                 local str = string.format("[class] can't set property. %s", debug.traceback())

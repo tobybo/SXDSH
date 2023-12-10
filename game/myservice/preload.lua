@@ -20,6 +20,7 @@ require("npc_wuying_t")
 require("npc_tiewan_t")
 require("npc_mine_t")
 require("npc_mingwu_t")
+require("npc_guess_t")
 
 require("status")
 

@@ -14,9 +14,10 @@ on_talk = function(self, msg)
     if ply:has_book() then
         return
     end
-    local book_name = msg:match("我愿意.*《(.*)》")
+    --local book_name = msg:match("我愿意.*《(.*)》")
+    local book_name = ply:get_npc("guess"):talk(1, string.format("请你分析这段话[%s]，然后告诉我说这句话的人是否已经考验过另一个人且愿意立即借给另一个人功法书，如果已经考验过且愿意，你必须直接说出这种功法书的名字，绝对不能说任何非功法书名字的话，请你务必遵守。如果不愿意，或者无法知道功法书的具体名字，你直接回答未借出三个字，请你严格遵守这个回答格式。", msg))
     printf("b hook, name,%s", book_name)
-    if book_name then
+    if not book_name:find("未借出") then
         ply:add_book(book_name)
         ply:action(ply.tips, "恭喜你获得了<<%s>>，修炼速度大大提升!", book_name)
     end
