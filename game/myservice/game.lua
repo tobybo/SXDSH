@@ -13,7 +13,7 @@ skynet.start(function()
 	skynet.newservice("simpledb")
 	local watchdog = skynet.newservice("luagate")
 	local addr,port = skynet.call(watchdog, "lua", "start", {
-		port = tonumber(os.getenv("SERVER_PORT")),
+		port = tonumber(os.getenv("SERVER_PORT") or SERVER_PORT),
 		maxclient = max_client,
 		nodelay = true,
 	})

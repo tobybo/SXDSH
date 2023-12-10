@@ -1,3 +1,5 @@
+SERVER_PORT = 8888
+SERVER_HOST = "127.0.0.1"
 
 -- 占位用
 NIL = {}

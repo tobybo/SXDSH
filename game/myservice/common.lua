@@ -1,6 +1,4 @@
--- Hx@2022-04-06: 引入服务器客户端写法兼容组件
--- 服务器用的lua53 with module(方便热更)
--- 客户端纯lua53
+
 local debug = debug
 local string = string
 local type = type
@@ -140,6 +138,9 @@ function module_class(mod, base)
                     end
                 end
                 obj._proxy[k] = v
+                if mod._table_name and not obj._init then
+                    obj.db[mod._table_name]:update({_id = obj._id}, {["$set"] = {[k] = v}}, true, false)
+                end
             elseif mod._property[k] ~= nil then
                 local str = string.format("[class] can't set property. %s", debug.traceback())
                 print(str)
@@ -166,10 +167,34 @@ function module_class(mod, base)
         local obj = { _proxy = {} }
         setmetatable(obj, _meta)
 
-        obj._initializing = true
+        obj._init = true
         obj:ctor(...)
         obj:init(...)
-        obj._initializing = false
+        obj._init = false
+        if mod._table_name then
+            obj.db[mod._table_name]:insert(obj._proxy)
+        end
+        return obj
+    end
+
+    mod.on_wrap = function(self)
+        if base then base.on_wrap(self) end
+    end
+
+	mod.wrap = function(t, ...)
+        local proxy = rawget(t, '_proxy')
+        if proxy then
+            local str = string.format("[class] double wrap! %s", debug.traceback())
+            error(str)
+        end
+        local obj = { _proxy = {} }
+        setmetatable(obj, _meta)
+
+        obj._init = true
+		check_template(obj, t, mod._template)
+        obj:init(...)
+        obj:on_wrap()
+        obj._init = nil
 
         return obj
     end
@@ -181,4 +206,36 @@ function get_time()
     return math.floor(time)
 end
 
+local function _copy(object, lookup_table)
+    if type(object) ~= "table" then
+        return object
+    elseif lookup_table[object] then
+        return lookup_table[object]
+    end
+    local new_table = {}
+    lookup_table[object] = new_table
+    for index, value in pairs(object) do
+        new_table[_copy(index, lookup_table)] = _copy(value, lookup_table)
+    end
+    return new_table
+end
 
+function copyTab(object)
+    local lookup_table = {}
+    return _copy(object, lookup_table)
+end
+
+---将数据wrap至obj的proxy中, template中有的字段才会赋值
+---@param obj 对象
+---@param data 数据
+---@param template 数据模板
+function check_template(obj, data, template)
+	for k, v in pairs(data) do
+		if template[k] ~= nil then
+			obj._proxy[k] = v
+		else
+			--TODO: $unset from db
+			rawset(obj, k, v) --过去入库的数据 不再入库 但是这样删除不了数据库中的数据
+		end
+	end
+end

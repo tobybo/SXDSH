@@ -9,8 +9,10 @@ require("common")
 require("define")
 require("resmng")
 
+require("player_base_t")
 require("player_t")
 require("player_handler")
+require("player_mng")
 
 require("npc_t")
 require("npc_chengzhu_t")

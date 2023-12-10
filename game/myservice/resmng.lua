@@ -58,5 +58,10 @@ prop_level = {
 
 CFG_MINE = {
     cd = 10,
-    pool = {{ITEM_MINE_1, 3000}, {ITEM_MINE_2, 3000}, {ITEM_MINE_3, 3000}, {ITEM_MINE_4, 1000}},
 }
+
+CFG_CARD_CD = 30 * 86400
+CFG_BOOK_CD = 30 * 86400
+
+INIT_STONE_NUM = 100
+

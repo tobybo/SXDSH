@@ -28,9 +28,24 @@ local CMD = setmetatable({}, {__index = function(_, fname)
 end})
 local talk_msgs = {}
 
+local default_handler = {
+    handshake = function(_, args)
+        ply = player_mng.load_player(args.name, dbL)
+        if ply then
+            ply:on_login(client_fd, dbL, send_request, WATCHDOG)
+            return ply:get_base_info()
+        else
+            -- 登录失败
+        end
+    end,
+    state_check_on_rpc = function()
+    end,
+}
+
 local function request(fname, args, response)
-    ply:state_check_on_rpc()
-    local r = ply[fname](ply, args)
+    local handler = ply or default_handler
+    handler:state_check_on_rpc()
+    local r = handler[fname](handler, args)
     print("fname: "..fname)
 	if response then
         print(string.format("response: %s,%s", fname, stringify(r)))
@@ -48,9 +63,6 @@ skynet.register_protocol {
 	end,
 	dispatch = function (fd, _, type, ...)
 		assert(fd == client_fd)	-- You can use fd to reply message
-        if not ply or ply:get_fd() ~= fd then
-            ply = player_t.create(fd, dbL, send_request, WATCHDOG)
-        end
 		skynet.ignoreret()	-- session is fd, don't call skynet.ret
 		skynet.trace()
 		if type == "REQUEST" then
@@ -66,7 +78,9 @@ skynet.register_protocol {
 			assert(type == "RESPONSE")
 			error "This example doesn't support request client"
 		end
-        ply:run_action()
+        if ply then
+            ply:run_action()
+        end
 	end
 }
 

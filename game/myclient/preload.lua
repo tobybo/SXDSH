@@ -9,6 +9,7 @@ require("common")
 require("define")
 require("resmng")
 
+require("player_base_t")
 require("player_client_t")
 
 require("cmd_base_t")

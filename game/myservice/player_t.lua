@@ -2,44 +2,34 @@
 module("player_t", package.seeall)
 
 _template = {
-    lv = 1,
-    exp = 0,
-    stone = 100,
 }
 
-module_class(player_t, NIL._base)
+_table_name = "player"
+
+module_class(player_t, player_base_t)
 
 local skynet = require "skynet"
 
-local need_save = {
-    name = 1,
-    lv = 1,
-    exp = 1,
-    stone = 1,
-    tm_create = 1,
-    book = 1,
-    tm_book = 1,
-}
+-- local need_save = {
+--     name = 1,
+--     lv = 1,
+--     exp = 1,
+--     stone = 1,
+--     tm_create = 1,
+--     book = 1,
+--     tm_book = 1,
+-- }
 
-ctor = function(self, fd, db, send, dog)
-    self.fd = fd
+ctor = function(self, name, db)
+    self._id = name
+    self.name = name
     self.tm_create = get_time()
+    self.stone = resmng.INIT_STONE_NUM
     self.db = db
-    self.items = {}
-    self.dog = dog
-    self.actions = {}
-    self.rpc = setmetatable({ply = self}, {__index = function(_, fname)
-        return function(rpc, data)
-            local ply = rpc.ply
-            local socket = require "skynet.socket"
-            local pack = send(fname, data)
-            local package = string.pack(">s2", pack)
-            socket.write(ply.fd, package)
-        end
-    end})
-    --self:register_cmds()
-    self:register_npcs()
-    self:set_state(PLY_STATE.NORMAL)
+    self.fd = fd
+end
+
+init = function(self)
 end
 
 get_name = function(self)
@@ -49,18 +39,6 @@ end
 set_name = function(self, name)
     self.name = name
     -- 先从数据库加载
-    local info = self.db.player:findOne({_id = name})
-    if info then
-		local data = info
-        for k,v in pairs(data) do
-            self[k] = v
-        end
-        printf("从数据库加载[%s]: %s", name, stringify(data))
-    else
-        local all = self:get_save_info()
-        self:save(all)
-	end
-    self:on_login()
 end
 
 set_info = function(self, info)
@@ -103,10 +81,25 @@ get_base_info = function(self)
     }
 end
 
-on_login = function(self)
+on_login = function(self, fd, db, send, dog)
+    self.fd = fd
+    self.db = db
+    self.dog = dog
+    self.actions = {}
+    self.rpc = setmetatable({ply = self}, {__index = function(_, fname)
+        return function(rpc, data)
+            local ply = rpc.ply
+            local socket = require "skynet.socket"
+            local pack = send(fname, data)
+            local package = string.pack(">s2", pack)
+            socket.write(ply.fd, package)
+        end
+    end})
+    --self:register_cmds()
+    self:register_npcs()
+    self:set_state(PLY_STATE.NORMAL)
     self.tm_login = get_time()
     self.tm_exp = self.tm_login
-    self:set_state(PLY_STATE.NORMAL)
     printf("散修[%s]登录成功", self.name)
 end
 
@@ -139,28 +132,24 @@ on_keep_alive = function(self)
 end
 
 save = function(self, chgs)
-    self.db.player:update({_id = self.name}, {["$set"] = chgs}, true, false)
+    --self.db.player:update({_id = self.name}, {["$set"] = chgs}, true, false)
 end
 
 drop = function(self, chgs)
     self.db.player:update({_id = self.name}, {["$unset"] = chgs}, true, false)
 end
 
-get_save_info = function(self)
-    local chgs = {_id = self.name}
-    for k,_ in pairs(need_save) do
-        printf("need_save,%s, value,%s", k, self[k])
-        if self[k] then
-            chgs[k] = self[k]
-        end
-    end
-    printf("save: %s", stringify(chgs))
-    return chgs
-end
-
-has_book = function(self)
-    return self.book
-end
+-- get_save_info = function(self)
+--     local chgs = {_id = self.name}
+--     for k,_ in pairs(need_save) do
+--         printf("need_save,%s, value,%s", k, self[k])
+--         if self[k] then
+--             chgs[k] = self[k]
+--         end
+--     end
+--     printf("save: %s", stringify(chgs))
+--     return chgs
+-- end
 
 add_book = function(self, book)
     self.book = book
@@ -409,11 +398,7 @@ add_card = function(self)
 end
 
 has_card = function(self)
-    return self.tm_card and get_time() - self.tm_card < 30 * DAY_SECS
-end
-
-has_task = function(self)
-    return self.task_need
+    return self:get_card_rest() > 0
 end
 
 add_task = function(self, task_need)

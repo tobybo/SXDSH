@@ -1,7 +1,7 @@
 
 module("player_client_t", package.seeall)
 
-module_class(player_client_t, NIL._base)
+module_class(player_client_t, player_base_t)
 
 ctor = function(self, fd, send)
     self.fd = fd
@@ -197,10 +197,10 @@ show_exp = function(self)
 end
 
 show_book = function(self)
-    if not self.book then
+    if not self:has_book() then
         return "暂未获得"
     end
-    return string.format("<<%s>> %s天后需归还", self.book, math.floor((self.tm_book - get_time())/DAY_SECS) + 30)
+    return string.format("<<%s>> %s天后需归还", self.book, math.floor((self.tm_book + resmng.CFG_BOOK_CD - get_time())/DAY_SECS))
 end
 
 show_items = function(self)
@@ -221,20 +221,12 @@ show_items = function(self)
     return str
 end
 
-get_card_rest = function(self)
-    return self.tm_card and 30 * DAY_SECS - (get_time() - self.tm_card)
-end
-
 show_card = function(self)
     local rest_sec = self:get_card_rest()
-    if not rest_sec or rest_sec <= 0 then
+    if rest_sec <= 0 then
         return "暂未获得"
     end
     return string.format("摆摊许可证(%s天后到期)", math.ceil(rest_sec/DAY_SECS))
-end
-
-has_task = function(self)
-    return self.task_need
 end
 
 unmount_sub_cmd = function(self)

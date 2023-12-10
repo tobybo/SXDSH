@@ -3,11 +3,6 @@ module("player_t")
 
 local skynet = require("skynet")
 
-function handshake(self, pack)
-    self:set_name(pack.name)
-    return self:get_base_info()
-end
-
 function command(self, pack)
     local cmd = pack.cmd
     local args = pack.args

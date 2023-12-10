@@ -13,8 +13,8 @@ local skynet = require "skynet.core"
 local host = sproto.new(proto.s2c):host "package"
 local request = host:attach(sproto.new(proto.c2s))
 
-local server_host = os.getenv("SERVER_HOST")
-local server_port = tonumber(os.getenv("SERVER_PORT"))
+local server_host = os.getenv("SERVER_HOST") or SERVER_HOST
+local server_port = tonumber(os.getenv("SERVER_PORT") or SERVER_PORT)
 local fd = assert(socket.connect(server_host, server_port))
 
 local ply = player_client_t.create(fd, request)
