@@ -77,7 +77,7 @@ cmds = {
         self.rpc:talk({npc_name = "b", clear = 1, question = string.format("我是修士%s", self.name)})
     end,
     c = function(self)
-        if self:get_card_rest() then
+        if self:has_card() then
             self:system_print("你的摆摊许可尚未过期，不要骚扰铁腕守护者大人!")
             return
         end

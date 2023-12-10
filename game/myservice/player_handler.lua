@@ -44,15 +44,13 @@ function look(self)
         self:tips("当前集市无人摆摊，请稍后再来~")
         return
     end
-    local lines = {}
     for name, v in pairs(seller) do
         local one = string.format("%s : ", name)
         for item_name, num in pairs(v.items) do
             one = one .. string.format("[%s x %s] ", item_name, num)
         end
-        table.insert(lines, one)
+        self:tips(one)
     end
-    self:tips(table.concat(lines, "\n"))
 end
 
 function break_lv(self)

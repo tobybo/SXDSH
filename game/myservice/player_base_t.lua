@@ -30,6 +30,10 @@ get_card_rest = function(self)
     return self.tm_card > 0 and resmng.CFG_CARD_CD - (get_time() - self.tm_card) or 0
 end
 
+has_card = function(self)
+    return self:get_card_rest() > 0
+end
+
 
 
 

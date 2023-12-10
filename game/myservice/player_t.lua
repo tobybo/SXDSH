@@ -261,6 +261,7 @@ end
 add_item = function(self, name, num)
     local items = self.items
     items[name] = (items[name] or 0) + num
+    self.items = items
     self:save({items = items})
     self.rpc:tips({tips = string.format("恭喜你获得了[%s x %s]", name, num)})
 end
@@ -395,10 +396,6 @@ add_card = function(self)
     self.tm_card = get_time()
     self:save({tm_card = self.tm_card})
     self:action(tips, "恭喜你获得<<摆摊许可证>>，有效期30天")
-end
-
-has_card = function(self)
-    return self:get_card_rest() > 0
 end
 
 add_task = function(self, task_need)
