@@ -14,7 +14,7 @@ on_talk = function(self, msg)
     if ply:has_task() then
         return
     end
-    local task_need = ply:get_npc("guess"):talk(1, string.format("请你分析这段话[%s]，然后告诉我说这句话的人是否告知了突破所需的材料，如果告知了，你直接说出这种材料的名字，绝对不能有其他多余的字符，请你务必遵守。如果没有告知，你只能回答未告知三个字，请你严格遵守这个回答格式。", msg))
+    local task_need = ply:get_npc("guess"):talk(1, string.format("请你分析这段话[%s]，然后告诉我说这句话的人是否告知了突破所需的材料，如果告知了，你直接说出这种材料的名字，绝对不能有其他多余的字符，标点符号也不能有，请你务必遵守。如果没有告知，你只能回答未告知三个字，请你严格遵守这个回答格式。", msg))
     printf("task, name,%s", task_need)
     if not task_need:find("未告知") then
         ply:add_task(task_need)

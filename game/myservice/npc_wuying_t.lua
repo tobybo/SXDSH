@@ -15,7 +15,7 @@ on_talk = function(self, msg)
         return
     end
     --local book_name = msg:match("我愿意.*《(.*)》")
-    local book_name = ply:get_npc("guess"):talk(1, string.format("请你分析这段话[%s]，然后告诉我说这句话的人是否已经考验过另一个人且愿意立即借给另一个人功法书，如果已经考验过且愿意，你必须直接说出这种功法书的名字，绝对不能说任何非功法书名字的话，请你务必遵守。如果不愿意，或者无法知道功法书的具体名字，你直接回答未借出三个字，请你严格遵守这个回答格式。", msg))
+    local book_name = ply:get_npc("guess"):talk(1, string.format("请你分析这段话[%s]，然后告诉我说这句话的人是否已经考验过另一个人且愿意立即借给另一个人功法书，如果已经考验过且愿意，你必须直接说出这种功法书的名字，绝对不能说任何非功法书名字的话，请你务必遵守。如果不愿意，或者无法知道功法书的具体名字，你直接回答未借出三个字，请你严格遵守这个回答格式。鉴于你过往回答总是不按照我给的规范来，我再次强调一遍你只有两种回答内容，一种是只直接说出书名(不能有任何标点符号，包括句号)，另一种是只回答未借出三个字。", msg))
     printf("b hook, name,%s", book_name)
     if not book_name:find("未借出") then
         ply:add_book(book_name)
