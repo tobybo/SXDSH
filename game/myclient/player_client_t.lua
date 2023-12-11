@@ -70,11 +70,13 @@ cmds = {
     end,
     a = function(self)
         self.npc = "a"
-        self.rpc:talk({npc_name = "a", clear = 1, question = string.format("我是修士%s", self.name)})
+        --self.rpc:talk({npc_name = "a", clear = 1, question = string.format("我是修士%s", self.name)})
+        self:npc_print("%s，你有何事找我?", self.name)
     end,
     b = function(self)
         self.npc = "b"
-        self.rpc:talk({npc_name = "b", clear = 1, question = string.format("我是修士%s", self.name)})
+        --self.rpc:talk({npc_name = "b", clear = 1, question = string.format("我是修士%s", self.name)})
+        self:npc_print("%s，你有何事找我?", self.name)
     end,
     c = function(self)
         if self:has_card() then
@@ -82,11 +84,13 @@ cmds = {
             return
         end
         self.npc = "c"
-        self.rpc:talk({npc_name = "c", clear = 1, question = string.format("我是修士%s", self.name)})
+        self:npc_print("%s，你有何事找我?", self.name)
+        --self.rpc:talk({npc_name = "c", clear = 1, question = string.format("我是修士%s", self.name)})
     end,
     d = function(self)
         self.npc = "d"
-        self.rpc:talk({npc_name = "d", clear = 1, question = string.format("我是修士%s", self.name)})
+        self:npc_print("%s，你有何事找我?", self.name)
+        --self.rpc:talk({npc_name = "d", clear = 1, question = string.format("我是修士%s", self.name)})
     end,
     buy = function(self)
         self:mount_sub_cmd(cmd_buy_t.create(self))
@@ -122,10 +126,14 @@ system_print = function(self, fmt, ...)
     end
 end
 
-npc_print = function(self, msg)
+npc_print = function(self, msg, ...)
     if not self.npc then return end
     local show_name = NPC_SHOW_NAMES[self.npc]
-    print(show_name..": "..msg)
+    if select('#', ...) > 0 then
+        print(show_name..": "..string.format(msg, ...))
+    else
+        print(show_name..": "..msg)
+    end
     print()
 end
 
