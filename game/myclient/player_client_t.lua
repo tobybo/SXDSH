@@ -70,13 +70,13 @@ cmds = {
     end,
     a = function(self)
         self.npc = "a"
-        --self.rpc:talk({npc_name = "a", clear = 1, question = string.format("我是修士%s", self.name)})
-        self:npc_print("%s，你有何事找我?", self.name)
+        self.rpc:talk({npc_name = "a", clear = 0, question = string.format("我是修士%s", self.name)})
+        --self:npc_print("%s，你有何事找我?", self.name)
     end,
     b = function(self)
         self.npc = "b"
-        --self.rpc:talk({npc_name = "b", clear = 1, question = string.format("我是修士%s", self.name)})
-        self:npc_print("%s，你有何事找我?", self.name)
+        self.rpc:talk({npc_name = "b", clear = 0, question = string.format("我是修士%s", self.name)})
+        --self:npc_print("%s，你有何事找我?", self.name)
     end,
     c = function(self)
         if self:has_card() then
@@ -84,13 +84,13 @@ cmds = {
             return
         end
         self.npc = "c"
-        self:npc_print("%s，你有何事找我?", self.name)
-        --self.rpc:talk({npc_name = "c", clear = 1, question = string.format("我是修士%s", self.name)})
+        --self:npc_print("%s，你有何事找我?", self.name)
+        self.rpc:talk({npc_name = "c", clear = 0, question = string.format("我是修士%s", self.name)})
     end,
     d = function(self)
         self.npc = "d"
-        self:npc_print("%s，你有何事找我?", self.name)
-        --self.rpc:talk({npc_name = "d", clear = 1, question = string.format("我是修士%s", self.name)})
+        --self:npc_print("%s，你有何事找我?", self.name)
+        self.rpc:talk({npc_name = "d", clear = 0, question = string.format("我是修士%s", self.name)})
     end,
     buy = function(self)
         self:mount_sub_cmd(cmd_buy_t.create(self))

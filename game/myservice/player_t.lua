@@ -101,7 +101,6 @@ on_login = function(self, fd, db, send, dog)
     self.tm_login = get_time()
     self.tm_exp = self.tm_login
     self.tm_book = 0
-    self.book = ""
     printf("散修[%s]登录成功", self.name)
 end
 

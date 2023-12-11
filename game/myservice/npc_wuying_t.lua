@@ -22,3 +22,12 @@ on_talk = function(self, msg)
         ply:action(ply.tips, "恭喜你获得了<<%s>>，修炼速度大大提升!", book_name)
     end
 end
+
+build_question = function(self, question)
+    local tail_str = ""
+    local ply = self.ply
+    if ply:has_book() then
+        tail_str = string.format("%s已经借了功法书，书名是%s，现在不能给他借书！", ply.name, ply.book)
+    end
+    return question..tail_str
+end
